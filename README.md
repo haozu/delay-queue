@@ -61,8 +61,8 @@ DelayQueue::enqueue('order','Job\\Order\\GetOrder',3,10,['id'=>8008]);
 |   id     | string     |    Job唯一标识                   | 需确保JobID唯一 可选参数          |
 
 ### 其他例子
-包装例子   demo/MyDelayQueueDemo.php
-添加例子   demo/AddDemo.php
-worker例子 demo/BackstageDemo.php.php
-job例子    demo/Job/JobDemo.php 
-测试例子   test/DelayQueueTest.php
+* 包装例子   demo/MyDelayQueueDemo.php
+* 添加例子   demo/AddDemo.php
+* worker例子 demo/BackstageDemo.php.php
+* job例子    demo/Job/JobDemo.php 
+* 测试例子   test/DelayQueueTest.php
