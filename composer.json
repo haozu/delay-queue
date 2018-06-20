@@ -1,0 +1,41 @@
+{
+    "name": "haozu/delay-queue",
+    "type": "library",
+    "keywords": [
+        "delay-queue",
+        "php-delay-queue",
+        "redis-delay-queue"
+    ],
+    "description": "Delay queue based on redis",
+    "license": "Apache-2.0",
+    "require": {
+        "php": ">=5.6",
+        "ext-pcntl": "*",
+        "ext-msgpack": "*",
+        "psr/container": "^1.0",
+        "monolog/monolog": "^1.0"
+    },
+    "bin": [
+        "bin/delayqueue"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Haozu\\DelayQueue\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Haozu\\DelayQueue\\Tests\\": "tests/",
+            "Haozu\\DelayQueue\\Demo\\": "demo/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.7"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packagist.phpcomposer.com"
+        }
+    ]
+}
