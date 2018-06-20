@@ -47,7 +47,9 @@ composer require haozu/delay-queue
 ### 添加任务 
 ```php
 DelayQueue::enqueue('order','Job\\Order\\GetOrder',3,10,['id'=>8008]);
-```php
+```
+
+### 参数说明
 
 |  参数名 |     类型    |     含义     |        备注       |
 |:-------:|:-----------:|:------------:|:-----------------:|
