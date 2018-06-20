@@ -53,8 +53,8 @@ DelayQueue::enqueue('order','Job\\Order\\GetOrder',3,10,['id'=>8008]);
 
 |  参数名 |     类型    |     含义     |        备注       |
 |:-------:|:-----------:|:------------:|:-----------------:|
-|   topic  | string     |    一组相同类型Job的集合（队列）。供消费者来订阅。                  |                     |
-|   jobName  | string   |    job任务的类名，是延迟队列里的基本单元。与具体的Topic关联在一起。                  |                     |
+|   topic  | string     |    一组相同类型Job的集合（队列）。                |        供消费者来订阅。               |
+|   jobName  | string   |    job任务的类名，是延迟队列里的基本单元。                  |      与具体的Topic关联在一起。               |
 |   delay  | int        |    Job需要延迟的时间, 单位：秒    |                   |
 |   ttr    | int        |    Job执行超时时间, 单位：秒   |   保证job至少被消费一次获取job后超时未处理会重新投入队列    |
 |   args   | string     |    Job的参数内容，供消费者做具体的业务处理， |        可选参数           |
