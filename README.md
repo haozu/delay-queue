@@ -1,5 +1,4 @@
 # delay-queue
-[![Go Report Card](https://goreportcard.com/badge/github.com/haozu/delay-queue)](https://goreportcard.com/report/github.com/haozu/delay-queue)
 [![Downloads](https://img.shields.io/github/downloads/haozu/delay-queue/total.svg)](https://github.com/haozu/delay-queue/releases)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/haozu/delay-queue/blob/master/LICENSE)
 [![Release](https://img.shields.io/github/release/haozu/delay-queue.svg?label=Release)](https://github.com/haozu/delay-queue/releases)
