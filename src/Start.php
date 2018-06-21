@@ -24,6 +24,11 @@ class Start
     const VERSION = '1.0';
 
     /**
+     * 参数
+     */
+    private  $_params = null;
+
+    /**
      * @var instance
      */
     private  static $instance;
@@ -32,6 +37,8 @@ class Start
      * 初始化标识
      */
     private static $initialize = false;
+
+
 
     /**
      * @return Haozu\DelayQueue\Start
@@ -65,21 +72,21 @@ EOF;
 <<<EOF
 Usage: 
 
-    -m                module模块名 timer
-        --contrast    每次对比的元素数量 默认10
-        --interval    无数据处理等待间隔 默认1
-        --prefix      redis前缀 默认delayqueue:
+    -module           module模块名 timer
+        -contrast    每次对比的元素数量 默认10
+        -interval    无数据处理等待间隔 默认1
+        -prefix      redis前缀 默认delayqueue:
 
-    -m                module模块名 worker
-        --topic       一组相同类型Job的集合（队列）多个用,隔开 (必须)
-        --interval    无数据时等待时长 默认1
-        --prefix      redis前缀 默认delayqueue:
-        --blocking    非否阻塞(即时性要求高使用blpop否则lpop) 不需要值 
+    -module           module模块名 worker
+        -topic       一组相同类型Job的集合（队列）多个用,隔开 (必须)
+        -interval    无数据时等待时长 默认1
+        -prefix      redis前缀 默认delayqueue:
+        -blocking    非否阻塞(即时性要求高使用blpop否则lpop) 不需要值 
 
     example 
-        -m=timer  --contrast=5  --interval=1   无数据等待1秒 
-        -m=worker --topic=order --blocking     阻塞
-        -m=worker --topic=order                不阻塞
+        -module=timer  -contrast=5  -interval=1     无数据等待1秒 
+        -module=worker -topic=order -blocking=true  阻塞
+        -module=worker -topic=order                 不阻塞
 
 EOF;
         return compact('title','message');
@@ -141,9 +148,9 @@ EOF;
         //获取传入参数
         $params = $this->getPramas();
         if( 
-            !in_array($params['m'],['timer','worker','help'])
-            || ($params['m']=='worker' && !isset($params['topic']))
-            || $params['m'] == 'help'
+            !in_array($params['module'],['timer','worker','help'])
+            || ($params['module']=='worker' && !isset($params['topic']))
+            || $params['module'] == 'help'
         ){
             echo $data['message'].PHP_EOL;exit;
         }
@@ -155,7 +162,7 @@ EOF;
         $container['logger']->info('Prefix set to {prefix}',['prefix'=>RedisProxy::getPrefix()]);
 
         //执行相应模块
-        switch ($params['m']) {
+        switch ($params['module']) {
             case 'timer':
                 $timer = new Timer();
                 $timer->setContrast(intval($params['contrast']));
@@ -174,22 +181,44 @@ EOF;
                 break;
         }
     }
-
+       
     /**
      * 获取参数
      * @return array
      */
     public function getPramas()
-    {
-        $params = getopt('m:',['contrast:','interval:','prefix:','topic:','interval:','blocking']);
-        $params = array_map('trim', $params);
-        $default = [
-            'm'        =>'help',
-            'contrast' =>10,
-            'interval' =>1,
-        ];
-        $params = array_merge($default,$params);
-        return $params;
+    {   
+        if ($this->_params === null) {
+            $regex = "/^-(\w{1,})=/";
+            if (isset($_SERVER['argv'])) {
+                $keys = ['module','contrast','interval','prefix','topic','interval','blocking'];
+                $this->_params = $_SERVER['argv'];
+                foreach ($this->_params as $name => $value) {
+                    if(preg_match($regex ,$value,$match)){
+                        list($search,$key) = $match;
+                        if(in_array($key, $keys)){
+                            $this->_params[$key] = trim(str_replace($search,'', $value));
+                            if(in_array($this->_params[$key],['true','ok','success'])){
+                                $this->_params[$key] = true;
+                            } 
+                            else if(in_array($this->_params[$key],['false','no','error'])){
+                                $this->_params[$key] = false;
+                            }
+                        }
+                        unset($this->_params[$name]);
+                    }
+                }
+            } else {
+                $this->_params = [];
+            }
+            $default = [
+                'module'   => 'help',
+                'contrast' => 10,
+                'interval' => 1,
+            ];
+            $this->_params = array_merge($default,$this->_params);
+        }
+        return $this->_params;
     }
 
     /**

@@ -34,7 +34,7 @@ class Bucket
      */
 	public function getJobsMinDelayTime($index){
 		$bucketName = $this->generateBucketName();
-		return Container::instance()->redisproxy->zrange($bucketName,0,$index-1,WITHSCORES);
+		return Container::instance()->redisproxy->zrange($bucketName,0,$index-1,'WITHSCORES');
 	}
 	
 	/**
