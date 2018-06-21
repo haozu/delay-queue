@@ -189,45 +189,5 @@ class DelayQueue
         }
     }
  
-    /**
-     * 执行job
-     * @return bool
-     */
-    public function perform()
-    {
-        $key = $this->prefix.$this->queue;
-        //取出有序集第一个元素
-        $result = RedisHandler::getInstance()->zRange($key, 0 ,0);
- 
-        if (!$result) {
-            return false;
-        }
- 
-        $jobInfo = unserialize($result[0]);
- 
-        print_r('job: '.$jobInfo['class'].' will run at: '. date('Y-m-d H:i:s',$jobInfo['runtime']).PHP_EOL);
- 
-        $jobClass = $jobInfo['class'];
- 
-        if(!@class_exists($jobClass)) {
-            print_r($jobClass.' undefined'. PHP_EOL);
-            RedisHandler::getInstance()->zRem($key, $result[0]);
-            return false;
-        }
- 
-        // 到时间执行
-        if (time() >= $jobInfo['runtime']) {
-            $job = new $jobClass;
-            $job->setPayload($jobInfo['args']);
-            $jobResult = $job->preform();
-            if ($jobResult) {
-                // 将任务移除
-                RedisHandler::getInstance()->zRem($key, $result[0]);
-                return true;
-            }
-        }
- 
-        return false;
-    }
 
 }
