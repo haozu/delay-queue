@@ -1,6 +1,6 @@
 # delay-queue
 [![Downloads](https://img.shields.io/github/downloads/haozu/delay-queue/total.svg)](https://github.com/haozu/delay-queue/releases)
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/haozu/delay-queue/blob/master/LICENSE)
+[![license](https://img.shields.io/hexpm/l/plug.svg?maxAge=2592000)](https://github.com/haozu/delay-queue/blob/master/LICENSE)
 [![Release](https://img.shields.io/github/release/haozu/delay-queue.svg?label=Release)](https://github.com/haozu/delay-queue/releases)
 
 基于Redis实现的延迟队列,MsgPack编码数据 参考[有赞延迟队列设计](http://tech.youzan.com/queuing_delay)实现
