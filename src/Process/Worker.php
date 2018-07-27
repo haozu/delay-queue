@@ -76,11 +76,15 @@ class Worker
             try {
             	if ($this->blocking) {
             		$data = Container::instance()->delayqueue->bpop($this->topics,$this->interval);
-                    Container::instance()->logger->info(sprintf('blocking with timeout of %d',$this->interval));
+                    if(empty($data)){
+                        Container::instance()->logger->info(sprintf('blocking with timeout of %d',$this->interval));
+                    }
             	} else {
             		$data = Container::instance()->delayqueue->pop($this->topics);
-            		sleep($this->interval);
-                    Container::instance()->logger->info(sprintf('sleeping with timeout of %d',$this->interval));
+                    if(empty($data)){
+                        sleep($this->interval);
+                        Container::instance()->logger->info(sprintf('sleeping with timeout of %d',$this->interval));
+                    }
             	}
                 
             } catch (\Exception $exception) {
